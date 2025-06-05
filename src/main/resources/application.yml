@@ -1,0 +1,55 @@
+# Configurações da aplicação
+spring:
+    application:
+        name: stranger-things
+
+# Configurações do servidor
+server:
+    port: 8080
+    servlet:
+        context-path: /api
+    tomcat:
+        max-threads: 200
+        connection-timeout: 5000
+
+# Configurações do Feign Client
+feign:
+    client:
+        config:
+            default:
+                connectTimeout: 5000
+                readTimeout: 5000
+                loggerLevel: FULL
+            stranger-things-api:
+                connectTimeout: 10000
+                readTimeout: 10000
+                loggerLevel: FULL
+                compression:
+                    request:
+                        enabled: true
+                    response:
+                        enabled: true
+
+# Configurações de logging
+logging:
+    level:
+        com.explorer.stranger_things: INFO
+        org.springframework.web: INFO
+        com.explorer.stranger_things.StrangerThingsClient: DEBUG
+    pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file:
+        name: logs/stranger-things.log
+        max-size: 10MB
+        max-history: 7
+
+# Configurações de métricas e monitoramento
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info,metrics
+        endpoint:
+            health:
+                show-details: always
